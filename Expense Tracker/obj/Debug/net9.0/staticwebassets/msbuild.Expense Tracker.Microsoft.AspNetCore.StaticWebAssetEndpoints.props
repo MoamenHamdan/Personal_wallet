@@ -768,17 +768,17 @@
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-\u002BY/T6Xt6t5KpWCO5UGapJ8dIb7FKPQYNSNX6bAmlPF0="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"3570"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022\u002BY/T6Xt6t5KpWCO5UGapJ8dIb7FKPQYNSNX6bAmlPF0=\u0022"},{"Name":"Last-Modified","Value":"Fri, 20 Jun 2025 18:17:07 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/Expense Tracker/profile.e2jiosi7e9.jpg">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\profile.jpg'))</AssetFile>
+    <StaticWebAssetEndpoint Include="_content/Expense Tracker/profile.jpeg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\profile.jpeg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"e2jiosi7e9"},{"Name":"integrity","Value":"sha256-BhmT9Z1nfQ1Ox831/SjdRQr1sJl\u002B\u002B8dQaIU6zDamqRA="},{"Name":"label","Value":"_content/Expense Tracker/profile.jpg"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"8564378"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022BhmT9Z1nfQ1Ox831/SjdRQr1sJl\u002B\u002B8dQaIU6zDamqRA=\u0022"},{"Name":"Last-Modified","Value":"Fri, 20 Jun 2025 18:17:07 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-TidKMb19DYmRraaJOXA070wf\u002BOSJL\u002BHJJ\u002BhXGgpoV6g="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"1588526"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022TidKMb19DYmRraaJOXA070wf\u002BOSJL\u002BHJJ\u002BhXGgpoV6g=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 18:53:54 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/Expense Tracker/profile.jpg">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\profile.jpg'))</AssetFile>
+    <StaticWebAssetEndpoint Include="_content/Expense Tracker/profile.y0xm8w0475.jpeg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\profile.jpeg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-BhmT9Z1nfQ1Ox831/SjdRQr1sJl\u002B\u002B8dQaIU6zDamqRA="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"8564378"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022BhmT9Z1nfQ1Ox831/SjdRQr1sJl\u002B\u002B8dQaIU6zDamqRA=\u0022"},{"Name":"Last-Modified","Value":"Fri, 20 Jun 2025 18:17:07 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"y0xm8w0475"},{"Name":"integrity","Value":"sha256-TidKMb19DYmRraaJOXA070wf\u002BOSJL\u002BHJJ\u002BhXGgpoV6g="},{"Name":"label","Value":"_content/Expense Tracker/profile.jpeg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1588526"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022TidKMb19DYmRraaJOXA070wf\u002BOSJL\u002BHJJ\u002BhXGgpoV6g=\u0022"},{"Name":"Last-Modified","Value":"Sun, 18 May 2025 18:53:54 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>

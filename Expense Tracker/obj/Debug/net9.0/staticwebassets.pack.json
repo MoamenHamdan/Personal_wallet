@@ -257,8 +257,8 @@
       "PackagePath": "staticwebassets\\logo.png"
     },
     {
-      "Id": "C:\\Users\\Admin\\OneDrive - Beirut Arab University\\C# projects\\expense_tracker\\Expense Tracker\\wwwroot\\profile.jpg",
-      "PackagePath": "staticwebassets\\profile.jpg"
+      "Id": "C:\\Users\\Admin\\OneDrive - Beirut Arab University\\C# projects\\expense_tracker\\Expense Tracker\\wwwroot\\profile.jpeg",
+      "PackagePath": "staticwebassets\\profile.jpeg"
     },
     {
       "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.Expense Tracker.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
