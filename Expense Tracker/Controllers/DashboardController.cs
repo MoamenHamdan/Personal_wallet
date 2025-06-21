@@ -28,13 +28,13 @@ namespace Expense_Tracker.Controllers
 
             //Total Income
             int TotalIncome = SelectedTransactions
-                .Where(i => i.Category.Type == "Income")
+                .Where(i => i.Category != null && i.Category.Type == "Income")
                 .Sum(j => j.Amount);
             ViewBag.TotalIncome = TotalIncome.ToString("C0");
 
             //Total Expense
             int TotalExpense = SelectedTransactions
-                .Where(i => i.Category.Type == "Expense")
+                .Where(i => i.Category != null && i.Category.Type == "Expense")
                 .Sum(j => j.Amount);
             ViewBag.TotalExpense = TotalExpense.ToString("C0");
 
@@ -46,7 +46,7 @@ namespace Expense_Tracker.Controllers
 
             //Doughnut Chart - Expense By Category
             ViewBag.DoughnutChartData = SelectedTransactions
-                .Where(i => i.Category.Type == "Expense")
+                .Where(i => i.Category != null && i.Category.Type == "Expense")
                 .GroupBy(j => j.Category.CategoryId)
                 .Select(k => new
                 {
@@ -61,7 +61,7 @@ namespace Expense_Tracker.Controllers
 
             //Income
             List<SplineChartData> IncomeSummary = SelectedTransactions
-                .Where(i => i.Category.Type == "Income")
+                .Where(i => i.Category != null && i.Category.Type == "Income")
                 .GroupBy(j => j.Date)
                 .Select(k => new SplineChartData()
                 {
@@ -72,7 +72,7 @@ namespace Expense_Tracker.Controllers
 
             //Expense
             List<SplineChartData> ExpenseSummary = SelectedTransactions
-                .Where(i => i.Category.Type == "Expense")
+                .Where(i => i.Category != null && i.Category.Type == "Expense")
                 .GroupBy(j => j.Date)
                 .Select(k => new SplineChartData()
                 {
@@ -104,6 +104,46 @@ namespace Expense_Tracker.Controllers
                 .Take(5)
                 .ToListAsync();
 
+            //Recent Incomes
+            ViewBag.RecentIncomes = await _context.Transactions
+                .Include(i => i.Category)
+                .Where(t => t.Category != null && t.Category.Type == "Income")
+                .OrderByDescending(j => j.Date)
+                .Take(5)
+                .ToListAsync();
+
+            // Top 5 Biggest Expenses
+            ViewBag.TopExpenses = await _context.Transactions
+                .Include(i => i.Category)
+                .Where(t => t.Category != null && t.Category.Type == "Expense")
+                .OrderByDescending(j => j.Amount)
+                .Take(5)
+                .ToListAsync();
+
+            // Top 5 Biggest Incomes
+            ViewBag.TopIncomes = await _context.Transactions
+                .Include(i => i.Category)
+                .Where(t => t.Category != null && t.Category.Type == "Income")
+                .OrderByDescending(j => j.Amount)
+                .Take(5)
+                .ToListAsync();
+
+            // Expense Breakdown by Category (Last 30 days)
+            DateTime thirtyDaysAgo = DateTime.Today.AddDays(-30);
+            ViewBag.ExpenseBreakdown = await _context.Transactions
+                .Include(i => i.Category)
+                .Where(t => t.Category != null && t.Category.Type == "Expense" && t.Date >= thirtyDaysAgo)
+                .GroupBy(j => j.Category.Title)
+                .Select(k => new { Category = k.Key, TotalAmount = k.Sum(l => l.Amount) })
+                .ToListAsync();
+
+            // Income Breakdown by Category (Last 30 days)
+            ViewBag.IncomeBreakdown = await _context.Transactions
+                .Include(i => i.Category)
+                .Where(t => t.Category != null && t.Category.Type == "Income" && t.Date >= thirtyDaysAgo)
+                .GroupBy(j => j.Category.Title)
+                .Select(k => new { Category = k.Key, TotalAmount = k.Sum(l => l.Amount) })
+                .ToListAsync();
 
             return View();
         }

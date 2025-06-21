@@ -10,7 +10,7 @@
     <div class="col-md-7">
         <ejs-grid id="transactions" dataSource="@Model" gridLines="None"
                   allowSorting="true" allowPaging="true">
-            <e-grid-pagesettings pageSize="10"></e-grid-pagesettings>
+            <e-grid-pagesettings pageSize="5"></e-grid-pagesettings>
             <e-grid-columns>
                 <e-grid-column headerText="Category" field="CategoryTitleWithIcon"></e-grid-column>
                 <e-grid-column headerText="Date" field="Date" width="110px"
@@ -21,7 +21,7 @@
         </ejs-grid>
     </div>
     <div class="col-md-5">
-        <div class="widget h-100 d-flex justify-content-center align-items-center">
+        <div class="widget h-100 d-flex justify-content-center align-items-center" style="background-color:#212b36">
             <i class="fa-solid fa-money-bill-transfer fa-2xl"></i>
         </div>
     </div>

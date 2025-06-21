@@ -1,0 +1,87 @@
+@model string
+
+@{
+    ViewData["Title"] = "Settings";
+    var currentTheme = Context.Request.Cookies["Theme"] ?? "fluent";
+    var profilePicture = Context.Request.Cookies["ProfilePicture"];
+    var profilePicturePath = string.IsNullOrEmpty(profilePicture) ? "~/profile.jpeg" : $"~/uploads/{profilePicture}";
+    var currentCurrency = Context.Request.Cookies["Currency"] ?? "USD";
+}
+
+<h1>Settings</h1>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+        <form method="post" asp-action="SaveSettings" enctype="multipart/form-data">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Profile Settings</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="displayName" class="form-label">Display Name</label>
+                                <input type="text" id="displayName" name="displayName" value="@Model" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="profilePicture" class="form-label">Profile Picture</label>
+                                <input type="file" id="profilePicture" name="profilePicture" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Appearance & Behavior</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="theme" class="form-label">Theme</label>
+                                <select id="theme" name="theme" class="form-control">
+                                    <option value="fluent" selected="@(currentTheme == "fluent")">Fluent</option>
+                                    <option value="bootstrap5" selected="@(currentTheme == "bootstrap5")">Bootstrap 5</option>
+                                    <option value="tailwind" selected="@(currentTheme == "tailwind")">Tailwind</option>
+                                    <option value="material" selected="@(currentTheme == "material")">Material</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="currency" class="form-label">Currency</label>
+                                <select id="currency" name="currency" class="form-control">
+                                    <option value="USD" selected="@(currentCurrency == "USD")">USD ($)</option>
+                                    <option value="EUR" selected="@(currentCurrency == "EUR")">EUR (€)</option>
+                                    <option value="GBP" selected="@(currentCurrency == "GBP")">GBP (£)</option>
+                                    <option value="JPY" selected="@(currentCurrency == "JPY")">JPY (¥)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Save All Settings</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Current Picture</h5>
+                <img class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;" src="@Url.Content(profilePicturePath)" alt="Profile Picture" />
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Reset</h5>
+                <p>This will reset all your settings to their default values.</p>
+                <form method="post" asp-action="ResetSettings" onsubmit="return confirm('Are you sure you want to reset all settings?');">
+                    <button type="submit" class="btn btn-danger">Reset All Settings</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 

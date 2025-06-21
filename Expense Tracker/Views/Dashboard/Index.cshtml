@@ -111,7 +111,7 @@
             </div>
             <div class="px-4 pb-4">
                 <ejs-grid id="recent-transactions"
-                dataSource="@ViewBag.RecentTransactions" gridLines="None">
+                          dataSource="@ViewBag.RecentTransactions" gridLines="None">
                     <e-grid-columns>
                         <e-grid-column headerText="Category" field="CategoryTitleWithIcon"></e-grid-column>
                         <e-grid-column headerText="Date" field="Date" type="date" format="MMM-dd-yy"></e-grid-column>
@@ -122,10 +122,87 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="widget h-100">
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <span><i class="fa-solid fa-plus fa-2xl"></i> Widget</span>
+        <div class="widget">
+            <div class="p-4">
+                <h5 class="fw-bold">Recent Incomes</h5>
             </div>
+            <div class="px-4 pb-4">
+                <ejs-grid id="recent-incomes"
+                          dataSource="@ViewBag.RecentIncomes" gridLines="None">
+                    <e-grid-columns>
+                        <e-grid-column headerText="Category" field="CategoryTitleWithIcon"></e-grid-column>
+                        <e-grid-column headerText="Date" field="Date" type="date" format="MMM-dd-yy"></e-grid-column>
+                        <e-grid-column headerText="Amount" field="FormattedAmount" textAlign="Right"></e-grid-column>
+                    </e-grid-columns>
+                </ejs-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*New Row for More Widgets*@
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="p-4">
+                <h5 class="fw-bold">Top 5 Biggest Expenses</h5>
+            </div>
+            <div class="px-4 pb-4">
+                <ejs-grid id="top-expenses"
+                          dataSource="@ViewBag.TopExpenses" gridLines="None">
+                    <e-grid-columns>
+                        <e-grid-column headerText="Category" field="CategoryTitleWithIcon"></e-grid-column>
+                        <e-grid-column headerText="Date" field="Date" type="date" format="MMM-dd-yy"></e-grid-column>
+                        <e-grid-column headerText="Amount" field="FormattedAmount" textAlign="Right"></e-grid-column>
+                    </e-grid-columns>
+                </ejs-grid>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="p-4">
+                <h5 class="fw-bold">Top 5 Biggest Incomes</h5>
+            </div>
+            <div class="px-4 pb-4">
+                <ejs-grid id="top-incomes"
+                          dataSource="@ViewBag.TopIncomes" gridLines="None">
+                    <e-grid-columns>
+                        <e-grid-column headerText="Category" field="CategoryTitleWithIcon"></e-grid-column>
+                        <e-grid-column headerText="Date" field="Date" type="date" format="MMM-dd-yy"></e-grid-column>
+                        <e-grid-column headerText="Amount" field="FormattedAmount" textAlign="Right"></e-grid-column>
+                    </e-grid-columns>
+                </ejs-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="p-4">
+                <h5 class="fw-bold">Expense Breakdown</h5>
+            </div>
+            <ejs-chart id="expense-breakdown-chart" background="#1a222b">
+                <e-chart-primaryxaxis valueType="Category"></e-chart-primaryxaxis>
+                <e-series-collection>
+                    <e-series dataSource="@ViewBag.ExpenseBreakdown" xName="Category" yName="TotalAmount" type="Bar"></e-series>
+                </e-series-collection>
+            </ejs-chart>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="p-4">
+                <h5 class="fw-bold">Income Breakdown</h5>
+            </div>
+            <ejs-chart id="income-breakdown-chart" background="#1a222b">
+                <e-chart-primaryxaxis valueType="Category"></e-chart-primaryxaxis>
+                <e-series-collection>
+                    <e-series dataSource="@ViewBag.IncomeBreakdown" xName="Category" yName="TotalAmount" type="Bar"></e-series>
+                </e-series-collection>
+            </ejs-chart>
         </div>
     </div>
 </div>
