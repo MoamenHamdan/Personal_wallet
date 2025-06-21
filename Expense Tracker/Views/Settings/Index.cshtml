@@ -8,80 +8,103 @@
     var currentCurrency = Context.Request.Cookies["Currency"] ?? "USD";
 }
 
-<h1>Settings</h1>
-
-<div class="row mt-4">
-    <div class="col-md-8">
-        <form method="post" asp-action="SaveSettings" enctype="multipart/form-data">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Profile Settings</h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Settings</h4>
+    </div>
+    <div class="card-body">
+        <ul class="nav nav-tabs" id="settingsTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Profile</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="appearance-tab" data-bs-toggle="tab" data-bs-target="#appearance" type="button" role="tab" aria-controls="appearance" aria-selected="false">Appearance</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="false">Account</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="settingsTabsContent">
+            <!-- Profile Tab -->
+            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row mt-4">
+                    <div class="col-md-7">
+                        <form method="post" asp-action="SaveSettings" enctype="multipart/form-data">
+                            <div class="form-group mb-3">
                                 <label for="displayName" class="form-label">Display Name</label>
                                 <input type="text" id="displayName" name="displayName" value="@Model" class="form-control" />
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <label for="profilePicture" class="form-label">Profile Picture</label>
-                                <input type="file" id="profilePicture" name="profilePicture" class="form-control" />
+                                <input type="file" id="profilePicture" name="profilePicture" class="form-control" onchange="previewImage(this);" />
                             </div>
-                        </div>
+                            <button type="submit" class="btn btn-primary">Save Profile</button>
+                        </form>
+                    </div>
+                    <div class="col-md-5 text-center">
+                        <h6 class="text-muted">Current Picture</h6>
+                        <img id="profilePicturePreview" class="img-fluid rounded-circle mt-2" style="width: 200px; height: 200px; object-fit: cover;" src="@Url.Content(profilePicturePath)" alt="Profile Picture" />
                     </div>
                 </div>
             </div>
-
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h5 class="card-title">Appearance & Behavior</h5>
+            <!-- Appearance Tab -->
+            <div class="tab-pane fade" id="appearance" role="tabpanel" aria-labelledby="appearance-tab">
+                <form method="post" asp-action="SaveSettings" class="mt-4">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <label for="theme" class="form-label">Theme</label>
-                                <select id="theme" name="theme" class="form-control">
-                                    <option value="fluent" selected="@(currentTheme == "fluent")">Fluent</option>
-                                    <option value="bootstrap5" selected="@(currentTheme == "bootstrap5")">Bootstrap 5</option>
-                                    <option value="tailwind" selected="@(currentTheme == "tailwind")">Tailwind</option>
-                                    <option value="material" selected="@(currentTheme == "material")">Material</option>
+                                <select id="theme" name="theme" class="form-select" asp-for="@currentTheme">
+                                    <option value="fluent">Fluent</option>
+                                    <option value="bootstrap5">Bootstrap 5</option>
+                                    <option value="tailwind">Tailwind</option>
+                                    <option value="material">Material</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <label for="currency" class="form-label">Currency</label>
-                                <select id="currency" name="currency" class="form-control">
-                                    <option value="USD" selected="@(currentCurrency == "USD")">USD ($)</option>
-                                    <option value="EUR" selected="@(currentCurrency == "EUR")">EUR (€)</option>
-                                    <option value="GBP" selected="@(currentCurrency == "GBP")">GBP (£)</option>
-                                    <option value="JPY" selected="@(currentCurrency == "JPY")">JPY (¥)</option>
+                                <select id="currency" name="currency" class="form-select" asp-for="@currentCurrency">
+                                    <option value="USD">USD ($)</option>
+                                    <option value="EUR">EUR (€)</option>
+                                    <option value="GBP">GBP (£)</option>
+                                    <option value="JPY">JPY (¥)</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary">Save All Settings</button>
-            </div>
-        </form>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5 class="card-title">Current Picture</h5>
-                <img class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;" src="@Url.Content(profilePicturePath)" alt="Profile Picture" />
-            </div>
-        </div>
-        <div class="card mt-4">
-            <div class="card-body">
-                <h5 class="card-title">Reset</h5>
-                <p>This will reset all your settings to their default values.</p>
-                <form method="post" asp-action="ResetSettings" onsubmit="return confirm('Are you sure you want to reset all settings?');">
-                    <button type="submit" class="btn btn-danger">Reset All Settings</button>
+                    <button type="submit" class="btn btn-primary mt-3">Save Appearance</button>
                 </form>
             </div>
+            <!-- Account Tab -->
+            <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
+                <div class="mt-4">
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Danger Zone</h4>
+                        <p>Resetting your settings is an irreversible action. All your customization, including profile name, picture, and theme, will be lost.</p>
+                        <hr>
+                        <p class="mb-0">Please be absolutely certain before proceeding.</p>
+                    </div>
+                    <form method="post" asp-action="ResetSettings" onsubmit="return confirm('Are you absolutely sure you want to reset all settings? This cannot be undone.');" class="mt-3">
+                        <button type="submit" class="btn btn-danger">Reset All Settings</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</div> 
+</div>
+
+@section Scripts {
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profilePicturePreview').setAttribute('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+} 

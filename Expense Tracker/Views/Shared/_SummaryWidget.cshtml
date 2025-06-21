@@ -1,0 +1,13 @@
+@model (string Title, string Amount, string Icon)
+
+<div class="widget summary @(Model.Title == "Total Income" ? "income" : Model.Title == "Total Expense" ? "expense" : "balance")">
+    <div class="d-flex flex-row">
+        <div class="d-flex flex-column justify-content-center p-4">
+            <i class="fa-solid @Model.Icon fa-2xl"></i>
+        </div>
+        <div class="d-flex flex-column m-auto py-3">
+            <span class="lead">@Model.Title</span>
+            <h1 class="display-6 fw-bold">@Model.Amount</h1>
+        </div>
+    </div>
+</div> 

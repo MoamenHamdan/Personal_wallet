@@ -1,4 +1,5 @@
 @model IEnumerable<Expense_Tracker.Models.Transaction>
+@using Expense_Tracker.Models
 
 @{
     ViewData["Title"] = "Reports";
@@ -9,125 +10,114 @@
     var categories = ViewBag.Categories as List<Category>;
 }
 
-<div class="row">
-    <div class="col-md-8">
-        <div class="card mt-4">
-            <div class="card-body">
-                <h5 class="card-title">Filter Report</h5>
-                <form method="get" asp-action="Index">
-                    <div class="row align-items-end">
-                        <div class="col-md-4">
-                            <label class="form-label">Date Range</label>
-                            <ejs-daterangepicker id="daterange" name="dateRange"
-                                                 value="@(startDate.HasValue ? startDate.Value.ToShortDateString() + " - " + endDate.Value.ToShortDateString() : "")"
-                                                 placeholder="Choose a date range"
-                                                 format="MMM-dd-yy">
-                            </ejs-daterangepicker>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Transaction Type</label>
-                            <select name="transactionType" class="form-select" asp-for="@transactionType">
-                                <option value="All">All</option>
-                                <option value="Income">Income</option>
-                                <option value="Expense">Expense</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Category</label>
-                            <select name="categoryId" class="form-select" asp-for="@categoryId">
-                                <option value="">All</option>
-                                @if (categories != null)
-                                {
+<div class="container-fluid">
+    <!-- Filter Accordion -->
+    <div class="accordion mb-4" id="filterAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="fa-solid fa-filter me-2"></i> Filter Report
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#filterAccordion">
+                <div class="accordion-body">
+                    <form method="get" asp-action="Index">
+                        <div class="row align-items-end g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Date Range</label>
+                                <ejs-daterangepicker id="daterange" name="dateRange"
+                                                     value="@(startDate.HasValue ? startDate.Value.ToShortDateString() + " - " + endDate.Value.ToShortDateString() : "")"
+                                                     placeholder="Choose a date range"
+                                                     format="MMM-dd-yy">
+                                </ejs-daterangepicker>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Transaction Type</label>
+                                <select name="transactionType" class="form-select" asp-for="@transactionType">
+                                    <option value="All">All</option>
+                                    <option value="Income">Income</option>
+                                    <option value="Expense">Expense</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Category</label>
+                                <select name="categoryId" class="form-select" asp-for="@categoryId">
+                                    <option value="">All</option>
                                     @foreach (var cat in categories)
                                     {
-                                        <option value="@cat.CategoryId">@cat.Title</option>
+                                        <option value="@cat.CategoryId" selected="@(cat.CategoryId == categoryId)">@cat.Title</option>
                                     }
-                                }
-                            </select>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">Apply Filter</button>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary">Filter</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="card mt-4">
-            <div class="card-body">
-                <h5 class="card-title">Transactions</h5>
-                <ejs-grid id="transactions" dataSource="@Model" gridLines="None"
-                          allowSorting="true" allowPaging="true" toolbar="@(new List<string>() { "PdfExport" })"
-                          allowPdfExport="true" toolbarClick="toolbarClick">
-                    <e-grid-pagesettings pageSize="10"></e-grid-pagesettings>
-                    <e-grid-columns>
-                        <e-grid-column headerText="Category" field="Category.Title"></e-grid-column>
-                        <e-grid-column headerText="Date" field="Date" width="110px"
-                                       type="date" format="MMM-dd-yy" textAlign="Left"></e-grid-column>
-                        <e-grid-column headerText="Type" template="#typeColumnTemplate" width="100px"></e-grid-column>
-                        <e-grid-column headerText="Note" field="Note"></e-grid-column>
-                        <e-grid-column headerText="Amount" field="FormattedAmount" textAlign="Right" width="110px"></e-grid-column>
-                    </e-grid-columns>
-                </ejs-grid>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="d-flex flex-column ms-4">
-            <div class="widget summary income mb-4">
-                <div class="d-flex flex-row">
-                    <div class="d-flex flex-column justify-content-center p-4">
-                        <i class="fa-solid fa-dollar-sign fa-2xl"></i>
-                    </div>
-                    <div class="d-flex flex-column m-auto py-3">
-                        <span class="lead">Total Income</span>
-                        <h1 class="display-6 fw-bold">@ViewBag.TotalIncome</h1>
-                    </div>
-                </div>
-            </div>
 
-            <div class="widget summary expense mb-4">
-                <div class="d-flex flex-row">
-                    <div class="d-flex flex-column justify-content-center p-4">
-                        <i class="fa-solid fa-dollar-sign fa-2xl"></i>
-                    </div>
-                    <div class="d-flex flex-column m-auto py-3">
-                        <span class="lead">Total Expense</span>
-                        <h1 class="display-6 fw-bold">@ViewBag.TotalExpense</h1>
-                    </div>
-                </div>
-            </div>
+    <!-- Summary Widgets -->
+    <div class="row mb-4 g-4">
+        <div class="col-md-4">
+            <partial name="_SummaryWidget" model='("Total Income", (string)ViewBag.TotalIncome, "fa-circle-arrow-up")' />
+        </div>
+        <div class="col-md-4">
+            <partial name="_SummaryWidget" model='("Total Expense", (string)ViewBag.TotalExpense, "fa-circle-arrow-down")' />
+        </div>
+        <div class="col-md-4">
+            <partial name="_SummaryWidget" model='("Balance", (string)ViewBag.Balance, "fa-scale-balanced")' />
+        </div>
+    </div>
 
-            <div class="widget summary balance">
-                <div class="d-flex flex-row">
-                    <div class="d-flex flex-column justify-content-center p-4">
-                        <i class="fa-solid fa-dollar-sign fa-2xl"></i>
-                    </div>
-                    <div class="d-flex flex-column m-auto py-3">
-                        <span class="lead">Balance</span>
-                        <h1 class="display-6 fw-bold">@ViewBag.Balance</h1>
-                    </div>
+    <!-- Data Grid and Chart -->
+    <div class="row g-4">
+        <div class="col-md-7">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="fa-solid fa-list-ul me-2"></i>Transactions</h5>
+                </div>
+                <div class="card-body">
+                    <ejs-grid id="transactions" dataSource="@Model" gridLines="None"
+                              allowSorting="true" allowPaging="true" toolbar="@(new List<string>() { "PdfExport" })"
+                              allowPdfExport="true" toolbarClick="toolbarClick" height="350">
+                        <e-grid-pagesettings pageSize="5"></e-grid-pagesettings>
+                        <e-grid-columns>
+                            <e-grid-column headerText="Category" field="Category.Title"></e-grid-column>
+                            <e-grid-column headerText="Date" field="Date" width="110px"
+                                           type="date" format="MMM-dd-yy" textAlign="Left"></e-grid-column>
+                            <e-grid-column headerText="Type" template="#typeColumnTemplate" width="100px"></e-grid-column>
+                            <e-grid-column headerText="Note" field="Note"></e-grid-column>
+                            <e-grid-column headerText="Amount" field="FormattedAmount" textAlign="Right" width="110px"></e-grid-column>
+                        </e-grid-columns>
+                    </ejs-grid>
                 </div>
             </div>
         </div>
-        <div class="widget chart mt-4 ms-4">
-            <div class="p-4">
-                <h5 class="fw-bold">Expense Breakdown</h5>
+        <div class="col-md-5">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="fa-solid fa-chart-pie me-2"></i>Expense Breakdown</h5>
+                </div>
+                <div class="card-body">
+                    <ejs-accumulationchart id="doughnutchart" enableSmartLabels background="transparent" height="350">
+                        <e-accumulation-series-collection>
+                            <e-accumulation-series dataSource="@ViewBag.DoughnutChartData"
+                                                   xName="categoryTitleWithIcon" yName="amount"
+                                                   innerRadius="60%" legendShape="Circle"
+                                                   palettes=@(new string[]{"#0e8d76","#a4b219","#cb9b00","#8a442c","#0454b5","#7d0a0a","#822690","#4c2090","#313e93","#0096ac"})>
+                                <e-accumulationseries-datalabel name="formattedAmount" visible></e-accumulationseries-datalabel>
+                            </e-accumulation-series>
+                        </e-accumulation-series-collection>
+                        <e-accumulationchart-legendsettings position="Top" toggleVisibility="false">
+                            <e-legendsettings-textstyle color="#fff" size="1rem"></e-legendsettings-textstyle>
+                        </e-accumulationchart-legendsettings>
+                        <e-accumulationchart-tooltipsettings enable></e-accumulationchart-tooltipsettings>
+                    </ejs-accumulationchart>
+                </div>
             </div>
-            <ejs-accumulationchart id="doughnutchart" enableSmartLabels background="#1a222b">
-                <e-accumulation-series-collection>
-                    <e-accumulation-series dataSource="@ViewBag.DoughnutChartData"
-                                           xName="categoryTitleWithIcon" yName="amount"
-                                           innerRadius="60%" legendShape="Circle"
-                                           palettes=@(new string[]{"#0e8d76","#a4b219","#cb9b00","#8a442c","#0454b5","#7d0a0a","#822690","#4c2090","#313e93","#0096ac"})>
-                        <e-accumulationseries-datalabel name="formattedAmount" visible></e-accumulationseries-datalabel>
-                    </e-accumulation-series>
-                </e-accumulation-series-collection>
-                <e-accumulationchart-legendsettings position="Top" toggleVisibility="false">
-                    <e-legendsettings-textstyle color="#fff" size="1rem"></e-legendsettings-textstyle>
-                </e-accumulationchart-legendsettings>
-                <e-accumulationchart-tooltipsettings enable></e-accumulationchart-tooltipsettings>
-            </ejs-accumulationchart>
         </div>
     </div>
 </div>
